@@ -4,7 +4,7 @@ const jstsEngine = require('jsts-engine')
 
 module.exports = {
 
-  load: function(path='*.jsts') {
+  load: function(path = '*.jsts') {
 
     return glob.sync(path)
 
@@ -12,15 +12,15 @@ module.exports = {
 
   },
 
-  process: function(files=[], objects={}) {
+  process: function(files = [], environment = {}) {
 
     return Array.isArray(files)
-           ? files.map(file => jstsEngine(file, objects))
-           : jstsEngine(files, objects)
+           ? files.map(file => jstsEngine(file, environment))
+           : jstsEngine(files, environment)
 
   },
 
-  output: function(files=[], filename='out.txt') {
+  output: function(files = [], filename = 'out.txt') {
 
     return fs.writeFileSync(
              filename,
@@ -32,15 +32,15 @@ module.exports = {
   },
 
   compile: function(
-    path='*.jsts',
-    filename='out.txt',
-    objects={}
+    path = '*.jsts',
+    filename = 'out.txt',
+    environment = {}
   ) {
 
     return module.exports.output(
       module.exports.process(
         module.exports.load(path),
-        objects
+        environment
       ),
       filename
     )
